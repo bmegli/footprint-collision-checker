@@ -34,14 +34,14 @@
  *
  * Author: Eitan Marder-Eppstein
  *********************************************************************/
-#ifndef NAV2_COSTMAP_2D__COST_VALUES_HPP_
-#define NAV2_COSTMAP_2D__COST_VALUES_HPP_
+#ifndef FCC__COST_VALUES_HPP_
+#define FCC__COST_VALUES_HPP_
 /** Provides a mapping for often used cost values */
-namespace nav2_costmap_2d
+namespace fcc
 {
 static constexpr unsigned char NO_INFORMATION = 255;
 static constexpr unsigned char LETHAL_OBSTACLE = 254;
 static constexpr unsigned char INSCRIBED_INFLATED_OBSTACLE = 253;
 static constexpr unsigned char FREE_SPACE = 0;
 }
-#endif  // NAV2_COSTMAP_2D__COST_VALUES_HPP_
+#endif  // FCC__COST_VALUES_HPP_

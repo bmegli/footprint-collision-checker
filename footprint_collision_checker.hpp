@@ -13,29 +13,22 @@
 // limitations under the License.
 //
 // Modified by: Shivang Patel (shivaang14@gmail.com)
+// Modified by: Bartosz Meglicki (meglickib@gmail.com>)
 
-#ifndef NAV2_COSTMAP_2D__FOOTPRINT_COLLISION_CHECKER_HPP_
-#define NAV2_COSTMAP_2D__FOOTPRINT_COLLISION_CHECKER_HPP_
+#ifndef FCC__FOOTPRINT_COLLISION_CHECKER_HPP_
+#define FCC__FOOTPRINT_COLLISION_CHECKER_HPP_
 
-#include <string>
 #include <vector>
-#include <memory>
-#include <algorithm>
 
-#include "rclcpp/rclcpp.hpp"
-#include "geometry_msgs/msg/pose_stamped.hpp"
-#include "geometry_msgs/msg/pose2_d.hpp"
-#include "nav2_costmap_2d/costmap_2d.hpp"
-#include "nav2_util/robot_utils.hpp"
-
-namespace nav2_costmap_2d
+namespace fcc
 {
-typedef std::vector<geometry_msgs::msg::Point> Footprint;
 
-template<typename CostmapT>
+template<typename CostmapT, typename PointT>
 class FootprintCollisionChecker
-{
+{  
 public:
+  typedef std::vector<PointT> Footprint;
+
   FootprintCollisionChecker();
   explicit FootprintCollisionChecker(CostmapT costmap);
   double footprintCost(const Footprint footprint);
@@ -49,6 +42,8 @@ protected:
   CostmapT costmap_;
 };
 
-}  // namespace nav2_costmap_2d
+}  // namespace fcc
 
-#endif  // NAV2_COSTMAP_2D__FOOTPRINT_COLLISION_CHECKER_HPP_
+#include "footprint_collision_checker.tpp"
+
+#endif  // FCC__FOOTPRINT_COLLISION_CHECKER_HPP_

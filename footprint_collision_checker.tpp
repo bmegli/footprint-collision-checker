@@ -13,39 +13,39 @@
 // limitations under the License.
 //
 // Modified by: Shivang Patel (shivaang14@gmail.com)
+// Modified by: Bartosz Meglicki (meglickib@gmail.com>)
 
-#include <memory>
-#include <string>
-#include <vector>
+#ifndef FCC__FOOTPRINT_COLLISION_CHECKER_TPP_
+#define FCC__FOOTPRINT_COLLISION_CHECKER_TPP_
+
+#ifndef FCC__FOOTPRINT_COLLISION_CHECKER_HPP_
+#error __FILE__ should only be included from footprint_collision_checker.hpp
+#endif // FCC__FOOTPRINT_COLLISION_CHECKER_HPP_
+
 #include <algorithm>
+#include <cmath>
 
-#include "nav2_costmap_2d/footprint_collision_checker.hpp"
+#include "cost_values.hpp"
+#include "line_iterator.hpp"
 
-#include "nav2_costmap_2d/cost_values.hpp"
-#include "nav2_costmap_2d/exceptions.hpp"
-#include "nav2_costmap_2d/footprint.hpp"
-#include "nav2_util/line_iterator.hpp"
-
-using namespace std::chrono_literals;
-
-namespace nav2_costmap_2d
+namespace fcc
 {
 
-template<typename CostmapT>
-FootprintCollisionChecker<CostmapT>::FootprintCollisionChecker()
+template<typename CostmapT, typename PointT>
+FootprintCollisionChecker<CostmapT, PointT>::FootprintCollisionChecker()
 : costmap_(nullptr)
 {
 }
 
-template<typename CostmapT>
-FootprintCollisionChecker<CostmapT>::FootprintCollisionChecker(
+template<typename CostmapT, typename PointT>
+FootprintCollisionChecker<CostmapT, PointT>::FootprintCollisionChecker(
   CostmapT costmap)
 : costmap_(costmap)
 {
 }
 
-template<typename CostmapT>
-double FootprintCollisionChecker<CostmapT>::footprintCost(const Footprint footprint)
+template<typename CostmapT, typename PointT>
+double FootprintCollisionChecker<CostmapT, PointT>::footprintCost(const Footprint footprint)
 {
   // now we really have to lay down the footprint in the costmap_ grid
   unsigned int x0, x1, y0, y1;
@@ -83,8 +83,8 @@ double FootprintCollisionChecker<CostmapT>::footprintCost(const Footprint footpr
   return footprint_cost;
 }
 
-template<typename CostmapT>
-double FootprintCollisionChecker<CostmapT>::lineCost(int x0, int x1, int y0, int y1) const
+template<typename CostmapT, typename PointT>
+double FootprintCollisionChecker<CostmapT, PointT>::lineCost(int x0, int x1, int y0, int y1) const
 {
   double line_cost = 0.0;
   double point_cost = -1.0;
@@ -100,34 +100,34 @@ double FootprintCollisionChecker<CostmapT>::lineCost(int x0, int x1, int y0, int
   return line_cost;
 }
 
-template<typename CostmapT>
-bool FootprintCollisionChecker<CostmapT>::worldToMap(
+template<typename CostmapT, typename PointT>
+bool FootprintCollisionChecker<CostmapT, PointT>::worldToMap(
   double wx, double wy, unsigned int & mx, unsigned int & my)
 {
   return costmap_->worldToMap(wx, wy, mx, my);
 }
 
-template<typename CostmapT>
-double FootprintCollisionChecker<CostmapT>::pointCost(int x, int y) const
+template<typename CostmapT, typename PointT>
+double FootprintCollisionChecker<CostmapT, PointT>::pointCost(int x, int y) const
 {
   return costmap_->getCost(x, y);
 }
 
-template<typename CostmapT>
-void FootprintCollisionChecker<CostmapT>::setCostmap(CostmapT costmap)
+template<typename CostmapT, typename PointT>
+void FootprintCollisionChecker<CostmapT, PointT>::setCostmap(CostmapT costmap)
 {
   costmap_ = costmap;
 }
 
-template<typename CostmapT>
-double FootprintCollisionChecker<CostmapT>::footprintCostAtPose(
+template<typename CostmapT, typename PointT>
+double FootprintCollisionChecker<CostmapT, PointT>::footprintCostAtPose(
   double x, double y, double theta, const Footprint footprint)
 {
   double cos_th = cos(theta);
   double sin_th = sin(theta);
   Footprint oriented_footprint;
   for (unsigned int i = 0; i < footprint.size(); ++i) {
-    geometry_msgs::msg::Point new_pt;
+	 PointT new_pt;
     new_pt.x = x + (footprint[i].x * cos_th - footprint[i].y * sin_th);
     new_pt.y = y + (footprint[i].x * sin_th + footprint[i].y * cos_th);
     oriented_footprint.push_back(new_pt);
@@ -136,8 +136,6 @@ double FootprintCollisionChecker<CostmapT>::footprintCostAtPose(
   return footprintCost(oriented_footprint);
 }
 
-// declare our valid template parameters
-template class FootprintCollisionChecker<std::shared_ptr<nav2_costmap_2d::Costmap2D>>;
-template class FootprintCollisionChecker<nav2_costmap_2d::Costmap2D *>;
+}  // namespace fcc
 
-}  // namespace nav2_costmap_2d
+#endif //FCC__FOOTPRINT_COLLISION_CHECKER_TPP_
