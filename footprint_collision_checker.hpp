@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 // Modified by: Shivang Patel (shivaang14@gmail.com)
-// Modified by: Bartosz Meglicki (meglickib@gmail.com>)
+// Modified by: Bartosz Meglicki (meglickib@gmail.com)
 
 #ifndef FCC__FOOTPRINT_COLLISION_CHECKER_HPP_
 #define FCC__FOOTPRINT_COLLISION_CHECKER_HPP_
