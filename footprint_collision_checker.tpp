@@ -39,7 +39,7 @@ FootprintCollisionChecker<CostmapT, PointT>::FootprintCollisionChecker()
 
 template<typename CostmapT, typename PointT>
 FootprintCollisionChecker<CostmapT, PointT>::FootprintCollisionChecker(
-  CostmapT costmap)
+  CostmapT *costmap)
 : costmap_(costmap)
 {
 }
@@ -114,7 +114,7 @@ double FootprintCollisionChecker<CostmapT, PointT>::pointCost(int x, int y) cons
 }
 
 template<typename CostmapT, typename PointT>
-void FootprintCollisionChecker<CostmapT, PointT>::setCostmap(CostmapT costmap)
+void FootprintCollisionChecker<CostmapT, PointT>::setCostmap(CostmapT *costmap)
 {
   costmap_ = costmap;
 }

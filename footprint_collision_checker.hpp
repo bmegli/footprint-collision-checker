@@ -30,16 +30,16 @@ public:
   typedef std::vector<PointT> Footprint;
 
   FootprintCollisionChecker();
-  explicit FootprintCollisionChecker(CostmapT costmap);
+  explicit FootprintCollisionChecker(CostmapT *costmap);
   double footprintCost(const Footprint footprint);
   double footprintCostAtPose(double x, double y, double theta, const Footprint footprint);
   double lineCost(int x0, int x1, int y0, int y1) const;
   bool worldToMap(double wx, double wy, unsigned int & mx, unsigned int & my);
   double pointCost(int x, int y) const;
-  void setCostmap(CostmapT costmap);
+  void setCostmap(CostmapT *costmap);
 
 protected:
-  CostmapT costmap_;
+  CostmapT *costmap_;
 };
 
 }  // namespace fcc

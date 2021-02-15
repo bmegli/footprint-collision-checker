@@ -14,7 +14,6 @@
 //
 
 #include <iostream>
-#include <memory>
 
 #include "../footprint_collision_checker.hpp"
 
@@ -48,11 +47,12 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	//typically map is shared between many objects
-	FootprintCollisionChecker<std::shared_ptr<MapMock>, PointMock> checker(std::make_shared<MapMock>());
+	MapMock *map = new MapMock();
+
+	FootprintCollisionChecker<MapMock, PointMock> checker(map);
 
 	//initialize some footprint, just a vector<PointMock> here
-	FootprintCollisionChecker<std::shared_ptr<MapMock>, PointMock>::Footprint footprint;
+	FootprintCollisionChecker<MapMock, PointMock>::Footprint footprint;
 
 	footprint.push_back( {-1, -1} );
 	footprint.push_back( {1, -1} );
@@ -68,7 +68,9 @@ int main(int argc, char **argv)
 	checker.worldToMap(0, 0, x, y);
 
 	//set new map
-	checker.setCostmap(std::make_shared<MapMock>());
+	checker.setCostmap(map);
+
+	delete map;
 
 	return 0;
 }
