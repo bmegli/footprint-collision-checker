@@ -34,6 +34,8 @@ public:
 
 		return 100;
 	}
+
+	static constexpr double LETHAL_OBSTACLE = 254;
 };
 
 struct PointMock

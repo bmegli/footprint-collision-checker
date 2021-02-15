@@ -25,7 +25,6 @@
 #include <algorithm>
 #include <cmath>
 
-#include "cost_values.hpp"
 #include "line_iterator.hpp"
 
 namespace fcc
@@ -55,12 +54,12 @@ double FootprintCollisionChecker<CostmapT, PointT>::footprintCost(const Footprin
   for (unsigned int i = 0; i < footprint.size() - 1; ++i) {
     // get the cell coord of the first point
     if (!worldToMap(footprint[i].x, footprint[i].y, x0, y0)) {
-      return static_cast<double>(LETHAL_OBSTACLE);
+      return static_cast<double>(CostmapT::LETHAL_OBSTACLE);
     }
 
     // get the cell coord of the second point
     if (!worldToMap(footprint[i + 1].x, footprint[i + 1].y, x1, y1)) {
-      return static_cast<double>(LETHAL_OBSTACLE);
+      return static_cast<double>(CostmapT::LETHAL_OBSTACLE);
     }
 
     footprint_cost = std::max(lineCost(x0, x1, y0, y1), footprint_cost);
@@ -69,12 +68,12 @@ double FootprintCollisionChecker<CostmapT, PointT>::footprintCost(const Footprin
   // we also need to connect the first point in the footprint to the last point
   // get the cell coord of the last point
   if (!worldToMap(footprint.back().x, footprint.back().y, x0, y0)) {
-    return static_cast<double>(LETHAL_OBSTACLE);
+    return static_cast<double>(CostmapT::LETHAL_OBSTACLE);
   }
 
   // get the cell coord of the first point
   if (!worldToMap(footprint.front().x, footprint.front().y, x1, y1)) {
-    return static_cast<double>(LETHAL_OBSTACLE);
+    return static_cast<double>(CostmapT::LETHAL_OBSTACLE);
   }
 
   footprint_cost = std::max(lineCost(x0, x1, y0, y1), footprint_cost);
